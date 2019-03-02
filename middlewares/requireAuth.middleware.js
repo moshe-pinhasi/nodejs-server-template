@@ -1,4 +1,4 @@
-const Logger = require('../services/logger')
+const Logger = require('../services/logger.service')
 const tokenService = require('../services/token.service')
 
 module.exports = async (req, res, next) => {

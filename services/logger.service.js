@@ -38,7 +38,8 @@ if (process.env.NODE_ENV !== 'production') {
     `[${timestamp}] ${level.toUpperCase()} - ${message}`)
 
   logger.add(new transports.Console({
-    format: simpleFormat
+    format: simpleFormat,
+    level: 'debug',
   }))
 }
 
