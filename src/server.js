@@ -2,6 +2,8 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import morgan from 'morgan'
+import path from 'path'
+
 import Logger from './services/logger.service'
 import config from './config'
 import errorHandler from './middlewares/errorHandler.middleware'
@@ -14,24 +16,27 @@ app.use(morgan(config.morganFormat))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(cors());
+if (process.env.NODE_ENV !== 'production') {
+    const corsOptions = {
+        origin: 'http://127.0.0.1:8080',
+        credentials: true
+    };
+    app.use(cors(corsOptions));
+}
 
 // routes
 app.use('/auth', authRoutes)
 app.use('/account', accountRoutes)
 
-// if (process.env.NODE_ENV === 'production') {
-//   // Express will serve up production assets
-//   // like our main.js file, or main.css file!
-//   app.use(express.static('client/build'));
+if (process.env.NODE_ENV === 'production') {
+  // Express will serve up production assets
+  // like our main.js file, or main.css file!
+  app.use(express.static(path.resolve(__dirname, 'public')));
 
-//   // Express will serve up the index.html file
-//   // if it doesn't recognize the route
-//   const path = require('path');
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-//   });
-// }
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+  });
+}
 
 // global error handler
 app.use(errorHandler);

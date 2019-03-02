@@ -13,6 +13,7 @@ export const login = async (req, res) => {
 
 export const signup = async (req, res) => {
     Logger.debug(`auth.route - signup`)
+    Logger.debug(`auth.route - signup ` + JSON.stringify(req.body))
 
     try {
         const {email, password, username} = req.body
