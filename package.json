@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "production ready server",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm run test",
+    "server": "nodemon server.js"
+  },
+  "author": "moshe pinhasi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "cors": "2.8.5",
+    "express": "4.16.4",
+    "jsonwebtoken": "8.5.0",
+    "morgan": "1.9.1",
+    "nodemon": "1.18.10",
+    "winston": "3.2.1"
+  }
+}
