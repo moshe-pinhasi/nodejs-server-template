@@ -1,12 +1,12 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const morgan = require('morgan')
-const Logger = require('./services/logger.service')
-const config = require('./config')
-const errorHandler = require('./middlewares/errorHandler.middleware')
-const authRoutes = require('./api/auth/auth.routes')
-const accountRoutes = require('./api/account/account.routes')
+import express from 'express'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import morgan from 'morgan'
+import Logger from './services/logger.service'
+import config from './config'
+import errorHandler from './middlewares/errorHandler.middleware'
+import authRoutes from './api/auth/auth.routes'
+import accountRoutes from './api/account/account.routes'
 
 const app = express()
 

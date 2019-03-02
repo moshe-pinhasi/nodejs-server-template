@@ -1,7 +1,7 @@
-const Logger = require('../services/logger.service')
-const tokenService = require('../services/token.service')
+import Logger from '../services/logger.service'
+import tokenService from '../services/token.service'
 
-module.exports = async (req, res, next) => {
+const requireAuth = async (req, res, next) => {
   const token = req.headers['authorization']
   Logger.info("[AUTH MID] path: " + req.path)
 
@@ -22,4 +22,6 @@ module.exports = async (req, res, next) => {
     Logger.debug(`[AUTH] ${err.message}`)
     next(err)
   }
-};
+}
+
+export default requireAuth

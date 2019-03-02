@@ -1,8 +1,7 @@
-const tokenService = require('../../services/token.service')
-const accountService = require('../account/account.service')
-const bcrypt = require('bcrypt')
-
-const Logger = require('../../services/logger.service')
+import bcrypt from 'bcrypt'
+import tokenService from '../../services/token.service'
+import accountService from '../account/account.service'
+import Logger from '../../services/logger.service'
 
 const saltRounds = 10
 
@@ -28,7 +27,7 @@ const signup = async (email, password, username) => {
 
 const logout = (token) => Promise.resolve(true) // need to add the token to blocked list
 
-module.exports = {
+export default {
     signup,
     login,
     logout

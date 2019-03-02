@@ -1,7 +1,7 @@
-const authService = require('./auth.service')
-const Logger = require('../../services/logger.service')
+import authService from './auth.service'
+import Logger from '../../services/logger.service'
 
-const login = async (req, res) => {
+export const login = async (req, res) => {
     const {email, password} = req.body
     try {
         const token = await authService.login(email, password)
@@ -11,7 +11,7 @@ const login = async (req, res) => {
     }
 }
 
-const signup = async (req, res) => {
+export const signup = async (req, res) => {
     Logger.debug(`auth.route - signup`)
 
     try {
@@ -25,13 +25,7 @@ const signup = async (req, res) => {
     }
 }
 
-const logout = async (req, res) => {
+export const logout = async (req, res) => {
     await authService.logout(req.token)
     res.send({message: 'logged out successfully'})
-}
-
-module.exports = {
-    login,
-    signup,
-    logout
 }

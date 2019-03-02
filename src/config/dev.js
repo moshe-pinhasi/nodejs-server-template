@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   "dbURL": "localhost:3306",
   "morganFormat": "tiny",
   "jwt": {
