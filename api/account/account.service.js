@@ -30,7 +30,7 @@ const findByEmail = (email) => {
     return Promise.resolve(res)
 }
 
-export default {
+module.exports = {
     getById,
     list,
     findByEmail,

@@ -1,5 +1,5 @@
-import Logger from '../services/logger.service'
-import tokenService from '../services/token.service'
+const Logger = require('../services/logger.service')
+const tokenService = require('../services/token.service')
 
 const requireAuth = async (req, res, next) => {
   const token = req.headers['authorization']
@@ -24,4 +24,4 @@ const requireAuth = async (req, res, next) => {
   }
 }
 
-export default requireAuth
+module.exports = requireAuth

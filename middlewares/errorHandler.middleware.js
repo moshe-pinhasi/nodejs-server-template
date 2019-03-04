@@ -1,4 +1,4 @@
-import Logger from '../services/logger.service'
+const Logger = require('../services/logger.service')
 
 const errorHandler = (err, req, res, next) => {
     if (typeof (err) === 'string') {
@@ -19,5 +19,5 @@ const errorHandler = (err, req, res, next) => {
 }
 
 
-export default  errorHandler
+module.exports =  errorHandler
 

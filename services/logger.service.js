@@ -1,5 +1,5 @@
-import fs from 'fs'
-import { createLogger, format, transports } from 'winston'
+const fs = require('fs')
+const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, label, prettyPrint, printf } = format
 
 const logsdir = './logs';
@@ -43,7 +43,7 @@ if (process.env.NODE_ENV !== 'production') {
   }))
 }
 
-export default {
+module.exports = {
   debug: (message, meta = "") => {
     logger.log("debug", message, meta)
   },

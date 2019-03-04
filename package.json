@@ -2,18 +2,14 @@
   "name": "server",
   "version": "1.0.0",
   "description": "production ready server",
-  "main": "src/server.js",
+  "main": "server.js",
   "scripts": {
-    "server:dev": "nodemon --exec babel-node src/server.js",
-    "server:prod": "npm run clean && npm run build && npm run serve",
-    "clean": "rimraf dist",
-    "build": "NODE_ENV=production babel src --out-dir dist",
-    "serve": "node dist/server.js"
+    "server:dev": "nodemon server.js",
+    "server:prod": "node server.js"
   },
   "author": "moshe pinhasi",
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.3.4",
     "bcrypt": "3.0.0",
     "body-parser": "1.18.3",
     "cors": "2.8.5",
@@ -23,12 +19,6 @@
     "winston": "3.2.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "7.3.4",
-    "@babel/node": "7.2.2",
-    "@babel/plugin-transform-runtime": "^7.3.4",
-    "@babel/preset-env": "7.3.4",
-    "nodemon": "1.18.10",
-    "rimraf": "^2.6.3"
+    "nodemon": "1.18.10"
   }
 }

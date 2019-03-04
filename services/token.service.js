@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken'
-import config from '../config'
+const jwt = require('jsonwebtoken')
+const config = require('../config')
 const {secret, options} = config.jwt
 
 const sign = (user) => new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ const verify = (token) => new Promise((resolve, reject) => {
     })
 })
 
-export default {
+module.exports = {
     sign,
     verify
 }

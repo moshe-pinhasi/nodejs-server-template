@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   "dbURL": process.env.DB_UR,
   "morganFormat": "combined",
   "jwt": {
