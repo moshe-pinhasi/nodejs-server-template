@@ -12,23 +12,28 @@ const login = async (req, res) => {
 }
 
 const signup = async (req, res) => {
-    Logger.debug(`auth.route - signup`)
-    Logger.debug(`auth.route - signup ` + JSON.stringify(req.body))
-
     try {
         const {email, password, username} = req.body
+
+        Logger.debug(email + ", "+ password + ", " + username)
         const account = await authService.signup(email, password, username)
-        Logger.debug(`auth.route - new acount created: ` + JSON.stringify(account))
+        Logger.debug(`auth.route - new account created: ` + JSON.stringify(account))
         const token = await authService.login(email, password)
-        res.send({message: 'Signup success!', token})    
+        res.status(200).send({message: 'Signup success!', token})    
     } catch(err) {
-        res.status(500).send({error: err})
+        Logger.error('[SIGNUP] ' + err)
+        res.status(500).send({error: 'could not signup, please try later'})
     }
 }
 
 const logout = async (req, res) => {
-    await authService.logout(req.token)
-    res.send({message: 'logged out successfully'})
+    try {
+        await authService.logout(req.token)
+        res.send({message: 'logged out successfully'})
+    }
+    catch(err) {
+        res.status(500).send({error: err})
+    }
 }
 
 module.exports = {

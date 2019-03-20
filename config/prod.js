@@ -1,11 +1,11 @@
 module.exports = {
   "dbURL": process.env.DB_UR,
-  "morganFormat": "combined",
+  "morganFormat": process.env.LOGGER_FORMAT,
   "jwt": {
-    "secret": "som_secret_string",
+    "secret": process.env.JWT_SECRET,
      "options": { 
-        "expiresIn": "4h",
-        "algorithm": 'HS256'
+        "expiresIn": process.env.JWT_EXPIRES,
+        "algorithm": process.env.JWT_ALGORITHM
      }
   }
 }

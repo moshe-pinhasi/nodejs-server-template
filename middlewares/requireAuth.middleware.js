@@ -12,10 +12,9 @@ const requireAuth = async (req, res, next) => {
 
   try {
     const decoded = await tokenService.verify(token)
-    Logger.info(JSON.stringify(decoded))
-    const {username, email, name} = decoded
-    req.user = {username, email, name}
-    req.token = token
+    Logger.debug(JSON.stringify(decoded))
+    const {email, username, accountId} = decoded
+    req.user = {email, username, accountId}
     next()
   } 
   catch(err) {
