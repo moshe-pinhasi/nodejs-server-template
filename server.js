@@ -28,7 +28,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/auth', authRoutes)
 app.use('/account', accountRoutes)
 
-if (process.env.NODE_ENV === 'production') {
+// if (process.env.NODE_ENV === 'production') {
   // Express will serve up production assets
   // like our main.js file, or main.css file!
   app.use(express.static(path.resolve(__dirname, 'public')));
@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
   });
-}
+// }
 
 // global error handler
 app.use(errorHandler);
