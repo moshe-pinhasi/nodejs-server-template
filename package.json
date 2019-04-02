@@ -16,7 +16,8 @@
     "express": "4.16.4",
     "jsonwebtoken": "8.5.0",
     "morgan": "1.9.1",
-    "winston": "3.2.1"
+    "winston": "3.2.1",
+    "winston-logzio": "^4.0.2"
   },
   "devDependencies": {
     "nodemon": "1.18.10"
