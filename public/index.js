@@ -1,5 +1,3 @@
-const API_URL = "/";
-
 const loginBtn = document.querySelector("#loginBtn");
 const signupBtn = document.querySelector("#signupBtn");
 const logoutBtn = document.querySelector("#logoutBtn");
@@ -107,7 +105,7 @@ const request = (method, route, data, onSuccess) => {
 		headers['Authorization'] = ACCESS_TOKEN
 	}
 
-  fetch(API_URL + route, {
+  fetch(route, {
     headers: headers,
     method: method,
     // mode: "cors",
