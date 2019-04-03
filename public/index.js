@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000";
+const API_URL = "/";
 
 const loginBtn = document.querySelector("#loginBtn");
 const signupBtn = document.querySelector("#signupBtn");
@@ -12,7 +12,7 @@ const signupBoxElm = document.querySelector("#signup-box");
 const findAccountBoxElm = document.querySelector("#find-account-box");
 
 
-let ACCESS_TOKEN = undefined;
+let ACCESS_TOKEN = localStorage.getItem('token');
 
 loginBtn.addEventListener("click", (event) => {
   event.preventDefault()
@@ -58,6 +58,7 @@ const doLogin = (formData, ev) => {
     if (res.error) return
 
     ACCESS_TOKEN = res.token
+    localStorage.setItem('token', ACCESS_TOKEN)
     loginBtn.classList.add("hide");
     signupBtn.classList.add("hide");
     logoutBtn.classList.remove("hide");
