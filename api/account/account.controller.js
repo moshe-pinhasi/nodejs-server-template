@@ -5,12 +5,12 @@ const getAccount = async (req, res) => {
     res.send(account)
 }
   
-const listAccounts = async (req, res) => {
+const getAccounts = async (req, res) => {
     const accounts = await accountService.list()
     res.send(accounts)
 }
 
 module.exports = {
     getAccount,
-    listAccounts
+    getAccounts
 }
