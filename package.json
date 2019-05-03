@@ -4,8 +4,8 @@
   "description": "production ready server",
   "main": "server.js",
   "scripts": {
-    "server:dev": "nodemon server.js",
-    "server:prod": "node server.js"
+    "server:dev": "nodemon app.js",
+    "server:prod": "node app.js"
   },
   "author": "moshe pinhasi",
   "license": "ISC",

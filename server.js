@@ -3,9 +3,8 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const path = require('path')
-
-const Logger = require('./services/logger.service')
 const config = require('./config')
+
 const errorHandler = require('./middlewares/errorHandler.middleware')
 const authRoutes = require('./api/auth/auth.routes')
 const accountRoutes = require('./api/account/account.routes')
@@ -41,6 +40,4 @@ app.use('/account', accountRoutes)
 // global error handler
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT);
-Logger.info('Server listening on port: ' + PORT)
+module.exports = app
