@@ -1,6 +1,7 @@
 const fs = require('fs')
 const { createLogger, format, transports } = require('winston')
-const { combine, timestamp, label, prettyPrint, printf } = format
+const { printf } = format
+const cls = require('cls-hooked')
 
 const logsdir = './logs';
 if (!fs.existsSync(logsdir)) {
@@ -13,27 +14,34 @@ const timeFormatFn = () => {
     return now.toUTCString();
 };
 
+const addTraceId = printf((info) => {
+    const clsNamespace = cls.getNamespace('app')
+    const traceID = clsNamespace.get('traceID')
+    if (traceID) {
+        info.traceID = traceID
+    }
+
+    info.level = info.level.toUpperCase()
+    info.timestamp = timeFormatFn()
+    return JSON.stringify(info)
+})
+
+const simpleFormat = printf(({ level, message, timestamp }) => {
+    const clsNamespace = cls.getNamespace('app')
+    const traceID = clsNamespace.get('traceID')
+    return `[TraceID: ${traceID}] [${timestamp}] ${level.toUpperCase()} - ${message}`
+})
+
 const logger = createLogger({
     level: 'info',
-    format: combine(
-        label({ label: process.env.NODE_ENV }),
-        timestamp({
-            format: timeFormatFn
-        }),
-        prettyPrint()
-    ),
-
-    defaultMeta: { service: 'nodejs-api-service' }, // change it to the service name
+    format: addTraceId,
+    defaultMeta: { service: 'nodejs-api-service', label: process.env.NODE_ENV }, // change it to the service name
     transports: [
         new transports.File({ filename: 'logs/log.log' })
     ]
 })
 
 if (process.env.NODE_ENV !== 'production') {
-
-    const simpleFormat = printf(({ level, message, label, timestamp }) =>
-        `[${timestamp}] ${level.toUpperCase()} - ${message}`)
-
     logger.add(new transports.Console({
         format: simpleFormat,
         level: 'debug',

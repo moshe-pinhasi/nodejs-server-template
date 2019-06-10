@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const path = require('path')
 const config = require('./config')
 
+const traceId = require('./middlewares/traceId.middleware')
 const errorHandler = require('./middlewares/errorHandler.middleware')
 const authRoutes = require('./api/auth/auth.routes')
 const accountRoutes = require('./api/account/account.routes')
@@ -23,18 +24,20 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(cors(corsOptions));
 }
 
+app.use(traceId)
+
 // routes
 app.use('/auth', authRoutes)
 app.use('/account', accountRoutes)
 
 // if (process.env.NODE_ENV === 'production') {
-  // Express will serve up production assets
-  // like our main.js file, or main.css file!
-  app.use(express.static(path.resolve(__dirname, 'public')));
+// Express will serve up production assets
+// like our main.js file, or main.css file!
+app.use(express.static(path.resolve(__dirname, 'public')));
 
-  app.get('*', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
-  });
+});
 // }
 
 // global error handler

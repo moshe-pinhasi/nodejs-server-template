@@ -1,36 +1,38 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "production ready server",
-  "main": "server.js",
-  "scripts": {
-    "server:dev": "nodemon app.js",
-    "server:prod": "node app.js",
-    "test": "jest --watch",
-    "coverage": "jest --coverage"
-  },
-  "author": "moshe pinhasi",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "3.0.0",
-    "body-parser": "1.18.3",
-    "cors": "2.8.5",
-    "express": "4.16.4",
-    "jsonwebtoken": "8.5.0",
-    "morgan": "1.9.1",
-    "winston": "3.2.1"
-  },
-  "devDependencies": {
-    "jest": "^24.7.1",
-    "nodemon": "1.18.10"
-  },
-  "jest": {
-    "testMatch": [
-      "<rootDir>/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ]
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "production ready server",
+    "main": "server.js",
+    "scripts": {
+        "server:dev": "NODE_ENV=development nodemon app.js",
+        "server:prod": "node app.js",
+        "test": "jest --watch",
+        "coverage": "jest --coverage"
+    },
+    "author": "moshe pinhasi",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "3.0.0",
+        "body-parser": "1.18.3",
+        "cls-hooked": "^4.2.2",
+        "cors": "2.8.5",
+        "express": "4.16.4",
+        "jsonwebtoken": "8.5.0",
+        "morgan": "1.9.1",
+        "uuidv4": "^4.0.0",
+        "winston": "3.2.1"
+    },
+    "devDependencies": {
+        "jest": "^24.7.1",
+        "nodemon": "1.18.10"
+    },
+    "jest": {
+        "testMatch": [
+            "<rootDir>/**/__tests__/**/*.{js,jsx,ts,tsx}",
+            "<rootDir>/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
+        ],
+        "testPathIgnorePatterns": [
+            "<rootDir>/node_modules/"
+        ]
+    }
 }
