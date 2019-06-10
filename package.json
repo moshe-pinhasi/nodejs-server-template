@@ -14,12 +14,12 @@
     "dependencies": {
         "bcrypt": "3.0.0",
         "body-parser": "1.18.3",
-        "cls-hooked": "^4.2.2",
+        "cls-hooked": "4.2.2",
         "cors": "2.8.5",
         "express": "4.16.4",
         "jsonwebtoken": "8.5.0",
         "morgan": "1.9.1",
-        "uuidv4": "^4.0.0",
+        "uuidv4": "4.0.0",
         "winston": "3.2.1"
     },
     "devDependencies": {
