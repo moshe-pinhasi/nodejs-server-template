@@ -1,3 +1,5 @@
+// https://habr.com/en/post/442392/
+
 const cls = require('cls-hooked')
 const uuidv4 = require('uuid/v4')
 
