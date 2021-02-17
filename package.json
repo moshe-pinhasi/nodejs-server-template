@@ -12,7 +12,7 @@
     "author": "moshe pinhasi",
     "license": "ISC",
     "dependencies": {
-        "bcrypt": "^3.0.0",
+        "bcrypt": "^5.0.0",
         "body-parser": "^1.18.3",
         "cls-hooked": "^4.2.2",
         "cors": "^2.8.5",
