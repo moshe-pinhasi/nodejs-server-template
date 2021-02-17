@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000";
+const API_URL = "http://localhost:3000/api";
 
 const loginBtn = document.querySelector("#loginBtn");
 const signupBtn = document.querySelector("#signupBtn");

@@ -1,21 +1,19 @@
 const Logger = require('../services/logger.service')
 
 const errorHandler = (err, req, res, next) => {
-    if (typeof (err) === 'string') {
-        // custom application error
-        Logger.error('[ERROR-HANDLER] ' + err)
-        return res.status(400).json({ message: err })
-    }
-
-    if (err.name === 'UnauthorizedError') {
-        // jwt authentication error
-        Logger.error('[ERROR-HANDLER] ' + err.name)
-        return res.status(401).json({ message: 'Invalid Token' })
-    }
+    
+    let error = err
+    // if (typeof err === 'object' && err.type === 'system')  skip
 
     // default to 500 server error
-    Logger.error('[ERROR-HANDLER] ' + err.message)
-    return res.status(500).json({ message: err.message })
+    if (typeof (err) === 'string') {
+        error = new InternalError(err)
+    } else if (err.type !== 'system') {
+        error = new InternalError(err.message || err.stack)
+    }
+
+    Logger.error(`[ERROR-HANDLER] [${error.code}] [${error.name}] - ${error.message}`)
+    res.status(error.code).json({ errors: error.serialize()})
 }
 
 

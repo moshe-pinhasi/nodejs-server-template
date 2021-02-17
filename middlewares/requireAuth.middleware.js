@@ -6,7 +6,7 @@ const requireAuth = async (req, res, next) => {
   Logger.info("[AUTH MID] path: " + req.path)
 
   if (!token) {
-    next({name: "UnauthorizedError"})
+    next(new UnauthorizedError())
     return
   }
 
@@ -19,7 +19,7 @@ const requireAuth = async (req, res, next) => {
   } 
   catch(err) {
     Logger.debug(`[AUTH] ${err.message}`)
-    next(err)
+    next(new UnauthorizedError(err.message))
   }
 }
 

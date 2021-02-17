@@ -1,4 +1,9 @@
 module.exports = {
+  "env" : {
+    name: "evelopment",
+    isDev: true,
+    isProd: false,
+  },
   "dbURL": "localhost:3306",
   "morganFormat": "tiny",
   "jwt": {

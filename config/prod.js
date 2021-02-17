@@ -1,5 +1,10 @@
 module.exports = {
-  "dbURL": process.env.DB_UR,
+  "env" : {
+    name: "production",
+    isDev: false,
+    isProd: true,
+  },
+  "dbURL": process.env.DB_URL,
   "morganFormat": process.env.LOGGER_FORMAT,
   "jwt": {
     "secret": process.env.JWT_SECRET,

@@ -5,6 +5,8 @@ const morgan = require('morgan')
 const path = require('path')
 const config = require('./config')
 
+require('./models/errors')
+
 const traceId = require('./middlewares/traceId.middleware')
 const errorHandler = require('./middlewares/errorHandler.middleware')
 const authRoutes = require('./api/auth/auth.routes')
@@ -27,8 +29,8 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(traceId)
 
 // routes
-app.use('/auth', authRoutes)
-app.use('/account', accountRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/account', accountRoutes)
 
 // if (process.env.NODE_ENV === 'production') {
 // Express will serve up production assets
