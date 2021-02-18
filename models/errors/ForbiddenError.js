@@ -1,13 +1,18 @@
-function ForbiddenError (message = 'Forbidden Error'){
-  this.message = message
-}
+class ForbiddenError extends Error {
+  code = 403;
+  name = 'ForbiddenError';
+  type = 'system';
 
-ForbiddenError.prototype.code = 403;
-ForbiddenError.prototype.name = 'ForbiddenError';
-ForbiddenError.prototype.type = 'system';
-ForbiddenError.prototype.serialize = function () {
-  return [{message: this.message}]
-};
+  constructor(message = 'Forbidden Error') {
+    super(message)
+  }
+
+  serialize() {
+    return [
+      {message: this.message}
+    ]
+  }
+}
 
 module.exports = ForbiddenError
 

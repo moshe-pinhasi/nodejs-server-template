@@ -1,12 +1,17 @@
-function BadRequestError (message = "Bad Request Error"){
-  this.message = message
-}
+class BadRequestError extends Error {
+  code = 400;
+  name = 'BadRequestError';
+  type = 'system';
 
-BadRequestError.prototype.code = 400;
-BadRequestError.prototype.name = 'BadRequestError';
-BadRequestError.prototype.type = 'system';
-BadRequestError.prototype.serialize = function () {
-  return [{message: this.message}]
-};
+  constructor(message = 'Bad Request Error') {
+    super(message)
+  }
+
+  serialize() {
+    return [
+      {message: this.message}
+    ]
+  }
+}
 
 module.exports = BadRequestError

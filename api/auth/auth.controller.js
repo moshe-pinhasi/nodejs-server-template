@@ -45,6 +45,7 @@ const logout = async(req, res) => {
 // validaion examples
 const _validateLoginParams = ({ email, password}) => {
     const errors = []
+    
     if (!email) {
         errors.push({message: 'email is required', param: 'email'})
     } else if (!email.includes('@')) {
@@ -60,6 +61,7 @@ const _validateLoginParams = ({ email, password}) => {
 
 const _validateSignupParams = ({ email, password, username}) => {
     const errors = []
+
     if (!email) {
         errors.push({message: 'email is required', param: 'email'})
     } else if (!email.includes('@')) {

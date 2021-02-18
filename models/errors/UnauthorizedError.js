@@ -1,12 +1,17 @@
-function UnauthorizedError (message = "Unauthorized Error"){
-  this.message = message
-}
+class UnauthorizedError extends Error {
+  code = 401;
+  name = 'UnauthorizedError';
+  type = 'system';
 
-UnauthorizedError.prototype.code = 401;
-UnauthorizedError.prototype.name = 'UnauthorizedError';
-UnauthorizedError.prototype.type = 'system';
-UnauthorizedError.prototype.serialize = function () {
-  return [{message: this.message}]
-};
+  constructor(message = 'Unauthorized Error') {
+    super(message)
+  }
+
+  serialize() {
+    return [
+      {message: this.message}
+    ]
+  }
+}
 
 module.exports = UnauthorizedError

@@ -1,13 +1,18 @@
-function NotFoundError (message = 'Not Found Error'){
-  this.message = message
-}
+class NotFoundError extends Error {
+  code = 404;
+  name = 'NotFoundError';
+  type = 'system';
 
-NotFoundError.prototype.code = 404;
-NotFoundError.prototype.name = 'NotFoundError';
-NotFoundError.prototype.type = 'system';
-NotFoundError.prototype.serialize = function () {
-  return [{message: this.message}]
-};
+  constructor(message = 'Not Found Error') {
+    super(message)
+  }
+
+  serialize() {
+    return [
+      {message: this.message}
+    ]
+  }
+}
 
 module.exports = NotFoundError
 
