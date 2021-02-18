@@ -4,6 +4,9 @@ module.exports = {
     isDev: false,
     isProd: true,
   },
+  "logger": {
+    "level": 'info',
+  },
   "dbURL": process.env.DB_URL,
   "morganFormat": process.env.LOGGER_FORMAT,
   "jwt": {

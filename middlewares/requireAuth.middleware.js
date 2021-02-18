@@ -1,5 +1,6 @@
 const Logger = require('../services/logger.service')
 const tokenService = require('../services/token.service')
+const { UnauthorizedError } = require('../models/errors')
 
 const requireAuth = async (req, res, next) => {
   const token = req.headers['authorization']

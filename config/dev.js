@@ -4,6 +4,9 @@ module.exports = {
     isDev: true,
     isProd: false,
   },
+  "logger": {
+    "level": 'debug',
+  },
   "dbURL": "localhost:3306",
   "morganFormat": "tiny",
   "jwt": {

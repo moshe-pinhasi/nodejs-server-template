@@ -4,8 +4,7 @@ const cors = require('cors')
 const morgan = require('morgan')
 const path = require('path')
 const config = require('./config')
-
-require('./models/errors')
+require('express-async-errors')
 
 const traceId = require('./middlewares/traceId.middleware')
 const errorHandler = require('./middlewares/errorHandler.middleware')

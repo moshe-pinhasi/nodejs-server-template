@@ -1,3 +1,4 @@
+const { InternalError } = require('../models/errors')
 const Logger = require('../services/logger.service')
 
 const errorHandler = (err, req, res, next) => {

@@ -33,7 +33,7 @@ const simpleFormat = printf(
 )
 
 const logger = createLogger({
-    level: 'info',
+    level: config.logger.level,
     format: addTraceId,
     defaultMeta: { service: 'nodejs-api-service', label: config.env.name }, // change it to the service name
     transports: [
@@ -45,7 +45,7 @@ const logger = createLogger({
 if (config.env.isDev) {
     logger.add(new transports.Console({
         format: simpleFormat,
-        level: 'debug',
+        level: config.logger.level,
     }))
 }
 

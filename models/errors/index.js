@@ -1,21 +1,23 @@
-const BadRequest = require('./BadRequest')
-const NotFound = require('./NotFound')
-const Forbidden = require('./Forbidden')
+// ERROR_CODES = [:missing, :missing_field, :invalid, :already_exists, :duplicate, :too_long, :unexpected, :unauthorized]
+const BadRequestError = require('./BadRequestError')
+const NotFoundError = require('./NotFoundError')
+const ForbiddenError = require('./ForbiddenError')
 const UnauthorizedError = require('./UnauthorizedError')
 const InternalError = require('./InternalError')
-const RequestValidation = require('./RequestValidation')
+const RequestValidationError = require('./RequestValidationError')
 
-global.BadRequest = BadRequest
-global.NotFound = NotFound
-global.Forbidden = Forbidden
-global.UnauthorizedError = UnauthorizedError
-global.InternalError = InternalError
-global.RequestValidation = RequestValidation
+// global.BadRequestError = BadRequestError
+// global.NotFoundError = NotFoundError
+// global.ForbiddenError = ForbiddenError
+// global.UnauthorizedError = UnauthorizedError
+// global.InternalError = InternalError
+// global.RequestValidationError = RequestValidationError
 
 module.exports = {
-  BadRequest,
-  NotFound,
+  BadRequestError,
+  ForbiddenError,
+  NotFoundError,
   UnauthorizedError,
   InternalError,
-  RequestValidation,
+  RequestValidationError,
 }
