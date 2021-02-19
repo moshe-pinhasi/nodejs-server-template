@@ -2,7 +2,7 @@ const authService = require('./auth.service')
 const Logger = require('../../services/logger.service')
 const { RequestValidationError } = require('../../models/errors')
 
-const login = async(req, res) => {
+const login = async(req, res, next) => {
     const errors = _validateLoginParams(req.body)
     try {
         if (errors.length > 0) {
@@ -12,7 +12,7 @@ const login = async(req, res) => {
         const token = await authService.login(email, password)
         res.send({ message: 'login success!', token })
     } catch (err) {
-        res.status(400).send({ error: err })
+        next(err)
     }
 }
 
