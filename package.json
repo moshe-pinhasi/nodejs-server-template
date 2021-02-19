@@ -35,6 +35,9 @@
         ],
         "testPathIgnorePatterns": [
             "<rootDir>/node_modules/"
+        ],
+        "setupFilesAfterEnv": [
+            "./test/setup.js"
         ]
     }
 }
