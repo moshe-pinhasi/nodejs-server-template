@@ -2,6 +2,11 @@ const Logger = require('../services/logger.service')
 const tokenService = require('../services/token.service')
 const { UnauthorizedError } = require('../models/errors')
 
+
+// In some cases we will want to split this middleware to
+// tow middlewares: setCurrentUser and requireAuth for cases that we
+// will need to write a route that not require authenticate
+// user but if he is authenticate he will use it.
 const requireAuth = async (req, res, next) => {
   const token = req.headers['authorization']
   Logger.info("[AUTH MID] path: " + req.path)
