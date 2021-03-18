@@ -1,16 +1,19 @@
 
-const request = require('supertest');
 const authService = require('../auth.service')
 const app = require('../../../server')
-
+const {login, signup, logout} = require('../auth.controller')
 
 jest.mock('../auth.service.js')
 
-const BASE_URL = '/api/auth'
+const reqFunc = (query = {}, body = {}) => ({ query, body })
+
+const res = { 
+    send: (data) =>  data
+}
 
 describe('auth.controller', () => {
 
-    describe('POST /auth/login', () => {
+    describe('login', () => {
         const email = 'john@mail.com'
         const password = '123456'
         const token = "jdhhghdasdw"
@@ -19,77 +22,95 @@ describe('auth.controller', () => {
             authService.login.mockReset()
         });
 
-        it('should login successfully', (done) => {
-            authService.login.mockResolvedValue("jdhhghdasdw");
-            request(app)
-                .post(BASE_URL + '/login')
-                .send({email, password})
-                .set('Accept', 'application/json')
-                .expect(200)
-                .then(response => {
-                    expect(response.body.token).toBeTruthy()
-                    expect(response.body.token).toBe(token)
-                    done();
-                })
+        it('should login successfully', async () => {
+            authService.login.mockResolvedValue(token);
+            const req = reqFunc({}, { email, password })
+            
+            const results = await login(req, res)
+            expect(results.token).toBeTruthy()
+            expect(results.message).toBeTruthy()
+            expect(authService.login).toHaveBeenCalled()
         })
 
-        it('should fail to login', (done) => {
-            request(app)
-                .post(BASE_URL + '/login')
-                .send({email: 'john@mail.com'})
-                .set('Accept', 'application/json')
-                .expect(404)
-                .then(response => {
-                    expect(response.body.errors).toBeTruthy()
-                    expect(response.body.errors.length).toBe(1)
-                    const error = response.body.errors[0]
-                    expect(error.message).toBeTruthy()
-                    expect(error.field).toBeTruthy()
-                    done();
-                })
+        it('should fail to login due to missing params', async () => {
+            const req = reqFunc({}, {})
+            expect.assertions(3);
+
+            try {
+                await login(req, res)
+            } catch(e) {
+                expect(e).toBeTruthy()
+                expect(e.code).toBe(404)
+                expect(e.serialize().length).toBe(2)
+            }
+        })
+
+        it('should fail to login due to invalid email', async () => {
+            authService.login.mockResolvedValue(null);
+            const req = reqFunc({}, { email, password })
+            expect.assertions(3);
+
+            try {
+                await login(req, res)
+            } catch(e) {
+                expect(e).toBeTruthy()
+                expect(e.code).toBe(400)
+                expect(e.serialize().length).toBe(1)
+            }
         })
     })
-
+    
     describe('POST /auth/signup', () => {
         const email = 'john@mail.com'
         const password = '123456'
         const username = '123456'
         const token = "jdhhghdasdw"
+        const account = {email, username}
 
         beforeEach(() => {
             authService.login.mockReset()
             authService.signup.mockReset()
         });
 
-        it('should singup successfully', (done) => {
-            authService.login.mockResolvedValue("jdhhghdasdw");
-            authService.signup.mockResolvedValue({});
-            request(app)
-                .post(BASE_URL + '/signup')
-                .send({email, password, username})
-                .set('Accept', 'application/json')
-                .expect(200)
-                .then(response => {
-                    expect(response.body.token).toBeTruthy()
-                    expect(response.body.token).toBe(token)
-                    done();
-                })
+        it('should singup successfully', async () => {
+            authService.signup.mockResolvedValue(account);
+            authService.login.mockResolvedValue(token);
+            const req = reqFunc({}, { email, password, username })
+            
+            const results = await signup(req, res)
+            expect(results.token).toBeTruthy()
+            expect(results.message).toBeTruthy()
+            expect(authService.signup).toHaveBeenCalled()
+            expect(authService.login).toHaveBeenCalled()
         })
 
-        it('should fail to signup missing params', (done) => {
-            request(app)
-                .post(BASE_URL + '/signup')
-                .send({email: 'john@mail.com'})
-                .set('Accept', 'application/json')
-                .expect(404)
-                .then(response => {
-                    expect(response.body.errors).toBeTruthy()
-                    expect(response.body.errors.length).toBe(2)
-                    const error = response.body.errors[0]
-                    expect(error.message).toBeTruthy()
-                    expect(error.field).toBeTruthy()
-                    done();
-                })
+        it('should fail to signup when missing params', async () => {
+            authService.signup.mockResolvedValue(account);
+            authService.login.mockResolvedValue(token);
+            const req = reqFunc({}, {})
+            expect.assertions(3);
+
+            try {
+                await signup(req, res)
+            } catch (e) {
+                expect(e).toBeTruthy()
+                expect(e.code).toBe(404)
+                expect(e.serialize().length).toBe(3)
+            }
+        })
+
+        it('should fail to signup invalid data', async () => {
+            authService.signup.mockResolvedValue(null);
+            const req = reqFunc({}, { email, password, username })
+            expect.assertions(3);
+
+            try {
+                await signup(req, res)
+            } catch (e) {
+                expect(e).toBeTruthy()
+                expect(e.code).toBe(400)
+                expect(e.serialize().length).toBe(1)
+            }
         })
     })
 })
