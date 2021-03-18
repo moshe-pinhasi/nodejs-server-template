@@ -1,6 +1,6 @@
 const authService = require('./auth.service')
 const Logger = require('../../services/logger.service')
-const { RequestValidationError } = require('../../models/errors')
+const { RequestValidationError, BadRequestError } = require('../../models/errors')
 
 const login = async(req, res, next) => {
     const errors = _validateLoginParams(req.body)
@@ -10,6 +10,9 @@ const login = async(req, res, next) => {
         }
         const { email, password } = req.body
         const token = await authService.login(email, password)
+        if (!token) {
+            throw new BadRequestError('Invalid email or password')
+        } 
         res.send({ message: 'login success!', token })
     } catch (err) {
         next(err)
@@ -21,12 +24,20 @@ const signup = async (req, res, next) => {
         const errors = _validateSignupParams(req.body)
         if (errors.length > 0) {
             throw new RequestValidationError(errors)
-        }
+        }    
         const { email, password, username } = req.body
-        Logger.debug(email + ", " + username)
+        Logger.debug(`auth.route - ${email}, ${username}`)
         const account = await authService.signup(email, password, username)
+        if (!account) {
+            throw new BadRequestError('Invalid data')
+        }
+
         Logger.debug(`auth.route - new account created: ` + JSON.stringify(account))
         const token = await authService.login(email, password)
+        if (!token) {
+            throw new BadRequestError('Invalid email or password')
+        }
+
         res.status(200).send({ message: 'Signup success!', token })
     } catch (err) {
         next(err)
@@ -43,7 +54,7 @@ const logout = async(req, res) => {
 }
 
 // validaion examples
-const _validateLoginParams = ({ email, password}) => {
+const _validateLoginParams = ({email, password}) => {
     const errors = []
     
     if (!email) {
