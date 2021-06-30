@@ -4,6 +4,7 @@ module.exports = {
     isDev: false,
     isProd: true,
   },
+  "port": process.env.PORT,
   "logger": {
     "level": 'info',
   },

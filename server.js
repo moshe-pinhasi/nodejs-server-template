@@ -17,7 +17,7 @@ app.use(morgan(config.morganFormat))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-if (process.env.NODE_ENV !== 'production') {
+if (config.isDev) {
     const corsOptions = {
         origin: 'http://127.0.0.1:8080',
         credentials: true
@@ -31,7 +31,7 @@ app.use(traceId)
 app.use('/api/auth', authRoutes)
 app.use('/api/account', accountRoutes)
 
-// if (process.env.NODE_ENV === 'production') {
+// if (!config.isDev) {
 // Express will serve up production assets
 // like our main.js file, or main.css file!
 app.use(express.static(path.resolve(__dirname, 'public')));
