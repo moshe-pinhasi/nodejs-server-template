@@ -9,8 +9,10 @@ class RequestValidationError extends Error {
   }
 
   serialize() {
-    return this.errors.map(err => 
-      ({ message: err.message, field: err.param }))
+    return this.errors.reduce((acc, err) => {
+      (acc[err.param] = err.message)
+      return acc
+    }, {})
   }
 }
 

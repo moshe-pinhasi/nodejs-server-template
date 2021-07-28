@@ -8,9 +8,7 @@ class ForbiddenError extends Error {
   }
 
   serialize() {
-    return [
-      {message: this.message}
-    ]
+    return {message: this.message}
   }
 }
 

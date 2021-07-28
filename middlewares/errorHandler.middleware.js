@@ -14,7 +14,7 @@ const errorHandler = (err, req, res, next) => {
     }
 
     Logger.error(`[ERROR-HANDLER] [${error.code}] [${error.name}] - ${error.message}`)
-    res.status(error.code).json({ errors: error.serialize()})
+    res.status(error.code).json({ name: error.name, errors: error.serialize()})
 }
 
 

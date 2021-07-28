@@ -8,9 +8,7 @@ class BadRequestError extends Error {
   }
 
   serialize() {
-    return [
-      {message: this.message}
-    ]
+    return {message: this.message}
   }
 }
 
