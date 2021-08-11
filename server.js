@@ -17,7 +17,7 @@ app.use(morgan(config.morganFormat))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-if (config.isDev) {
+if (config.env.isDev) {
     const corsOptions = {
         origin: 'http://127.0.0.1:8080',
         credentials: true
