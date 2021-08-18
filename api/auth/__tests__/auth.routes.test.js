@@ -3,7 +3,6 @@ const request = require('supertest');
 const authService = require('../auth.service')
 const app = require('../../../server')
 
-
 jest.mock('../auth.service.js')
 
 const BASE_URL = '/api/auth'
@@ -41,10 +40,8 @@ describe('auth.routes', () => {
                 .expect(404)
                 .then(response => {
                     expect(response.body.errors).toBeTruthy()
-                    expect(response.body.errors.length).toBe(1)
-                    const error = response.body.errors[0]
-                    expect(error.message).toBeTruthy()
-                    expect(error.field).toBeTruthy()
+                    const errors = response.body.errors
+                    expect(Object.keys(errors).length).toBeGreaterThan(0)
                     done();
                 })
         })
@@ -84,10 +81,8 @@ describe('auth.routes', () => {
                 .expect(404)
                 .then(response => {
                     expect(response.body.errors).toBeTruthy()
-                    expect(response.body.errors.length).toBe(2)
-                    const error = response.body.errors[0]
-                    expect(error.message).toBeTruthy()
-                    expect(error.field).toBeTruthy()
+                    const errors = response.body.errors
+                    expect(Object.keys(errors).length).toBeGreaterThan(0)
                     done();
                 })
         })

@@ -1,7 +1,7 @@
 
 const authService = require('../auth.service')
-const app = require('../../../server')
-const {login, signup, logout} = require('../auth.controller')
+const {login, signup} = require('../auth.controller')
+const { RequestValidationError, BadRequestError } = require('../../../models/errors')
 
 jest.mock('../auth.service.js')
 
@@ -34,33 +34,37 @@ describe('auth.controller', () => {
 
         it('should fail to login due to missing params', async () => {
             const req = reqFunc({}, {})
-            expect.assertions(3);
+            expect.assertions(4);
 
             try {
                 await login(req, res)
             } catch(e) {
                 expect(e).toBeTruthy()
                 expect(e.code).toBe(404)
-                expect(e.serialize().length).toBe(2)
+                const errors = e.serialize()
+                expect(Object.keys(errors).length).toBe(2)
+                expect(e instanceof RequestValidationError).toBeTruthy()
             }
         })
 
         it('should fail to login due to invalid email', async () => {
             authService.login.mockResolvedValue(null);
             const req = reqFunc({}, { email, password })
-            expect.assertions(3);
+            expect.assertions(4);
 
             try {
                 await login(req, res)
             } catch(e) {
                 expect(e).toBeTruthy()
                 expect(e.code).toBe(400)
-                expect(e.serialize().length).toBe(1)
+                const errors = e.serialize()
+                expect(Object.keys(errors).length).toBe(1)
+                expect(e instanceof BadRequestError).toBeTruthy()
             }
         })
     })
     
-    describe('POST /auth/signup', () => {
+    describe('signup', () => {
         const email = 'john@mail.com'
         const password = '123456'
         const username = '123456'
@@ -88,28 +92,32 @@ describe('auth.controller', () => {
             authService.signup.mockResolvedValue(account);
             authService.login.mockResolvedValue(token);
             const req = reqFunc({}, {})
-            expect.assertions(3);
+            expect.assertions(4);
 
             try {
                 await signup(req, res)
             } catch (e) {
                 expect(e).toBeTruthy()
                 expect(e.code).toBe(404)
-                expect(e.serialize().length).toBe(3)
+                const errors = e.serialize()
+                expect(Object.keys(errors).length).toBe(3)
+                expect(e instanceof RequestValidationError).toBeTruthy()
             }
         })
 
         it('should fail to signup invalid data', async () => {
             authService.signup.mockResolvedValue(null);
             const req = reqFunc({}, { email, password, username })
-            expect.assertions(3);
+            expect.assertions(4);
 
             try {
                 await signup(req, res)
             } catch (e) {
                 expect(e).toBeTruthy()
                 expect(e.code).toBe(400)
-                expect(e.serialize().length).toBe(1)
+                const errors = e.serialize()
+                expect(Object.keys(errors).length).toBe(1)
+                expect(e instanceof BadRequestError).toBeTruthy()
             }
         })
     })

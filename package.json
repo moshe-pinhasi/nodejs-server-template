@@ -6,7 +6,8 @@
     "scripts": {
         "server:dev": "NODE_ENV=development nodemon app.js",
         "server:prod": "node app.js",
-        "test": "jest --watch --no-cache",
+        "test": "jest --watchAll --no-cache",
+        "test:file": "jest --no-cache -- $name",
         "coverage": "jest --coverage"
     },
     "author": "moshe pinhasi",

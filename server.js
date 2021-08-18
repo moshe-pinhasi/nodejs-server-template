@@ -13,6 +13,7 @@ const accountRoutes = require('./api/account/account.routes')
 
 const app = express()
 
+app.use(traceId)
 app.use(morgan(config.morganFormat))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -25,7 +26,6 @@ if (config.env.isDev) {
     app.use(cors(corsOptions));
 }
 
-app.use(traceId)
 
 // routes
 app.use('/api/auth', authRoutes)
