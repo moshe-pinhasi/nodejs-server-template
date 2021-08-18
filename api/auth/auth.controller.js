@@ -14,7 +14,7 @@ const login = async(req, res) => {
         throw new BadRequestError('Invalid email or password')
     } 
 
-    return res.send({ message: 'login success!', token })
+    return res.status(200).send({ message: 'login success!', token })
 }
 
 const signup = async (req, res) => {
@@ -31,12 +31,12 @@ const signup = async (req, res) => {
 
     Logger.debug(`auth.route - new account created: ` + JSON.stringify(account))
     const token = await authService.login(email, password)
-    return res.send({ message: 'Signup success!', token })
+    return res.status(200).send({ message: 'Signup success!', token })
 }
 
 const logout = async(req, res) => {
     await authService.logout(req.token)
-    return res.send({ message: 'logged out successfully' })
+    return res.status(200).send({ message: 'logged out successfully' })
 }
 
 // validaion examples

@@ -5,11 +5,14 @@ const { RequestValidationError, BadRequestError } = require('../../../models/err
 
 jest.mock('../auth.service.js')
 
-const reqFunc = (query = {}, body = {}) => ({ query, body })
-
-const res = { 
-    send: (data) =>  data
-}
+const mockRequest = (query = {}, body = {}) => ({ query, body })
+const mockResponse = () => {
+    const res = {};
+    res.status = jest.fn().mockReturnValue(res);
+    res.send = jest.fn().mockReturnValue(res);
+    res.json = jest.fn().mockReturnValue(res);
+    return res;
+};
 
 describe('auth.controller', () => {
 
@@ -24,17 +27,20 @@ describe('auth.controller', () => {
 
         it('should login successfully', async () => {
             authService.login.mockResolvedValue(token);
-            const req = reqFunc({}, { email, password })
+            const req = mockRequest({}, { email, password })
             
-            const results = await login(req, res)
-            expect(results.token).toBeTruthy()
-            expect(results.message).toBeTruthy()
+            const res = mockResponse()
+            await login(req, res)
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.send).toHaveBeenCalledWith({message: "login success!", token});
             expect(authService.login).toHaveBeenCalled()
         })
 
         it('should fail to login due to missing params', async () => {
-            const req = reqFunc({}, {})
             expect.assertions(4);
+            const req = mockRequest({}, {})
+            const res = mockResponse()
 
             try {
                 await login(req, res)
@@ -48,9 +54,11 @@ describe('auth.controller', () => {
         })
 
         it('should fail to login due to invalid email', async () => {
-            authService.login.mockResolvedValue(null);
-            const req = reqFunc({}, { email, password })
             expect.assertions(4);
+
+            authService.login.mockResolvedValue(null);
+            const req = mockRequest({}, { email, password })
+            const res = mockResponse()
 
             try {
                 await login(req, res)
@@ -79,11 +87,13 @@ describe('auth.controller', () => {
         it('should singup successfully', async () => {
             authService.signup.mockResolvedValue(account);
             authService.login.mockResolvedValue(token);
-            const req = reqFunc({}, { email, password, username })
+            const req = mockRequest({}, { email, password, username })
+            const res = mockResponse()
             
-            const results = await signup(req, res)
-            expect(results.token).toBeTruthy()
-            expect(results.message).toBeTruthy()
+            await signup(req, res)
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.send).toHaveBeenCalledWith({message: "Signup success!", token});
             expect(authService.signup).toHaveBeenCalled()
             expect(authService.login).toHaveBeenCalled()
         })
@@ -91,7 +101,8 @@ describe('auth.controller', () => {
         it('should fail to signup when missing params', async () => {
             authService.signup.mockResolvedValue(account);
             authService.login.mockResolvedValue(token);
-            const req = reqFunc({}, {})
+            const req = mockRequest({}, {})
+            const res = mockResponse()
             expect.assertions(4);
 
             try {
@@ -106,9 +117,10 @@ describe('auth.controller', () => {
         })
 
         it('should fail to signup invalid data', async () => {
-            authService.signup.mockResolvedValue(null);
-            const req = reqFunc({}, { email, password, username })
             expect.assertions(4);
+            authService.signup.mockResolvedValue(null);
+            const req = mockRequest({}, { email, password, username })
+            const res = mockResponse()
 
             try {
                 await signup(req, res)
