@@ -1,8 +1,8 @@
-const fs = require('fs')
-const { createLogger, format, transports } = require('winston')
-const { printf } = format
-const cls = require('cls-hooked')
-const config = require('../config')
+const fs = require('fs');
+const { createLogger, format, transports } = require('winston');
+const { printf } = format;
+const cls = require('cls-hooked');
+const config = require('../config');
 
 const logsdir = './logs';
 if (!fs.existsSync(logsdir)) {
@@ -15,54 +15,50 @@ const timeFormatFn = () => {
     return now.toUTCString();
 };
 
-const addTraceId = printf((info) => {
+const jsonFormat = printf((info) => {
     const clsNamespace = cls.getNamespace('app')
-    const traceID = clsNamespace.get('traceID')
-    if (traceID) {
-        info.traceID = traceID
-    }
-
-    info.level = info.level.toUpperCase()
-    info.timestamp = timeFormatFn()
+    const traceId = clsNamespace.get('traceId')
+    info.traceId = traceId
+    info.env = config.env.name
     return JSON.stringify(info)
 })
 
-const simpleFormat = printf(
-    ({ level, message, timestamp, traceID = 'N/A' }) => 
-        `[Trace-Id: ${traceID}] [${timestamp}] ${level.toUpperCase()} - ${message}`
-)
+const stringFormat = printf((info) => {
+    const clsNamespace = cls.getNamespace('app')
+    const traceId = clsNamespace.get('traceId')
+    const { level, message} = info
+    return `[TraceId: ${traceId}] [${timeFormatFn()}] ${level.toUpperCase()} - ${message}`
+})
 
 const logger = createLogger({
-    level: config.logger.level,
-    format: addTraceId,
-    defaultMeta: { service: 'nodejs-api-service', label: config.env.name }, // change it to the service name
+    level: 'info',
+    format: stringFormat,
+    defaultMeta: {
+        service: 'prerender-app',
+        label: 'backend' // change it to the service name
+    },
     transports: [
-        new transports.File({ filename: 'logs/log.log' })
+        new transports.File({ filename: 'logs/log.log' }),
+        new transports.Console({
+            level: 'debug',
+        }),
     ]
 })
 
-
-if (config.env.isDev) {
-    logger.add(new transports.Console({
-        format: simpleFormat,
-        level: config.logger.level,
-    }))
-}
-
 module.exports = {
-    debug: (message, meta = "") => {
-        logger.log("debug", message, meta)
+    debug: (message) => {
+        logger.log('debug', message, true);
     },
 
-    info: (message, meta) => {
-        logger.log("info", message, meta)
+    info: (message) => {
+        logger.log('info', message, true);
     },
 
-    warn: (message, meta) => {
-        logger.log("warn", message, meta)
+    warn: (message) => {
+        logger.log('warn', message, true);
     },
 
-    error: (message, meta) => {
-        logger.log("error", message, meta)
+    error: (message) => {
+        logger.log('error', message, true);
     }
 }

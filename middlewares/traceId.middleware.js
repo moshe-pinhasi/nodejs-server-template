@@ -10,10 +10,12 @@ const clsMiddleware = (req, res, next) => {
     clsNamespace.bind(req)
     clsNamespace.bind(res)
 
-    const traceID = uuidv4()
+    console.log('[traceId] generating...');
+    const traceId = uuidv4()
 
     clsNamespace.run(() => {
-        clsNamespace.set('traceID', traceID)
+        clsNamespace.set('traceId', traceId)
+        console.log('[traceId] continue');
 
         next()
     })

@@ -93,7 +93,7 @@ describe('auth.controller', () => {
             await signup(req, res)
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.send).toHaveBeenCalledWith({message: "Signup success!", token});
+            expect(res.send).toHaveBeenCalledWith({token});
             expect(authService.signup).toHaveBeenCalled()
             expect(authService.login).toHaveBeenCalled()
         })

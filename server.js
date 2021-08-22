@@ -7,25 +7,21 @@ const config = require('./config')
 require('express-async-errors')
 
 const traceId = require('./middlewares/traceId.middleware')
+const expressWinston = require('./middlewares/express-winston.middleware')
 const errorHandler = require('./middlewares/errorHandler.middleware')
+
 const authRoutes = require('./api/auth/auth.routes')
 const accountRoutes = require('./api/account/account.routes')
 
 const app = express()
 
-app.use(traceId)
-app.use(morgan(config.morganFormat))
+// app.use(morgan(config.morganFormat))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(traceId)
+app.use(expressWinston);
 
-if (config.env.isDev) {
-    const corsOptions = {
-        origin: 'http://127.0.0.1:8080',
-        credentials: true
-    };
-    app.use(cors(corsOptions));
-}
-
+config.env.isDev && app.use(cors(config.corsOptions));
 
 // routes
 app.use('/api/auth', authRoutes)

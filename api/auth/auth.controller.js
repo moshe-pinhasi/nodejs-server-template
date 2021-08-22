@@ -31,7 +31,7 @@ const signup = async (req, res) => {
 
     Logger.debug(`auth.route - new account created: ` + JSON.stringify(account))
     const token = await authService.login(email, password)
-    return res.status(200).send({ message: 'Signup success!', token })
+    return res.status(200).send({ token })
 }
 
 const logout = async(req, res) => {
