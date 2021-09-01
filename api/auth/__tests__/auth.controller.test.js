@@ -33,7 +33,7 @@ describe('auth.controller', () => {
             await login(req, res)
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.send).toHaveBeenCalledWith({message: "login success!", token});
+            expect(res.send).toHaveBeenCalledWith({token});
             expect(authService.login).toHaveBeenCalled()
         })
 

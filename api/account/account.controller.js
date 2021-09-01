@@ -11,6 +11,7 @@ const getAccount = async (req, res, next) => {
         if (!account) {
             throw new NotFoundError('account not found')
         }
+        delete account.password
         res.status(200).send({account})
     } catch(err) {
         next(err)

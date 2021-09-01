@@ -14,7 +14,7 @@ const login = async(req, res) => {
         throw new BadRequestError('Invalid email or password')
     } 
 
-    return res.status(200).send({ message: 'login success!', token })
+    return res.status(200).send({ token })
 }
 
 const signup = async (req, res) => {
