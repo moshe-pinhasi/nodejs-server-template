@@ -1,5 +1,5 @@
 class RequestValidationError extends Error {
-  code = 404;
+  code = 400;
   name = 'RequestValidationError';
   type = 'system';
 
